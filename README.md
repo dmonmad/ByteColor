@@ -1,52 +1,23 @@
 # ByteColor
 
-_Acá va un párrafo que describa lo que es el proyecto_
+_Allows you to convert any file to colored .png file and back_
 
-## Comenzando 🚀
+## Conversion 🚀
 
-_Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos de desarrollo y pruebas._
-
-Mira **Deployment** para conocer como desplegar el proyecto.
-
-
-### Pre-requisitos 📋
-
-_Que cosas necesitas para instalar el software y como instalarlas_
+Converts any file to .png.
 
 ```
-Da un ejemplo
+-c inputfile outputfile.png
 ```
 
-### Instalación 🔧
+Where **inputfile** is the file's path to be converted and **outputfile.png** is the place where you want the file to be placed
 
-_Una serie de ejemplos paso a paso que te dice lo que debes ejecutar para tener un entorno de desarrollo ejecutandose_
 
-_Dí cómo será ese paso_
+### Reverse Conversion 🔧
 
-```
-Da un ejemplo
-```
-
-_Y repite_
+Converts any converted file to back to the name and extension you give.
 
 ```
-hasta finalizar
+-c inputfile.png outputfile
 ```
-
-_Finaliza con un ejemplo de cómo obtener datos del sistema o como usarlos para una pequeña demo_
-
-## Ejecutando las pruebas ⚙️
-
-_Explica como ejecutar las pruebas automatizadas para este sistema_
-
-### Analice las pruebas end-to-end 🔩
-
-_Explica que verifican estas pruebas y por qué_
-
-```
-Da un ejemplo
-```
-
-### Y las pruebas de estilo de codificación ⌨️
-
-_Explica que verifican estas pruebas y por qué_
+Where **inputfile.png** is the file's path that was converted and you want to convert back and **outputfile** is the place where you want the file to be placed.
