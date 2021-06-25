@@ -25,9 +25,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class main {
 
     public static void main(String[] args) {
-        args[0] = "-c";
-        args[1] = "C:\\Users\\PTV\\Desktop\\prueba\\test1.txt";
-        args[2] = "C:\\Users\\PTV\\Desktop\\prueba\\prueba.png";
         try {
             for (String s : args) {
                 System.out.println(s);
@@ -39,8 +36,11 @@ public class main {
                 System.out.println("#################################");
                 System.out.println("Reading from " + args[1]);
                 byte[] array = Files.readAllBytes(Paths.get(args[1]));
-                int height = 1;
-                int widht = array.length;
+                System.out.println(array.length);
+                System.out.println(Math.sqrt(array.length));
+                System.out.println(Math.ceil(Math.sqrt(array.length)));
+                int height = (int) Math.ceil(Math.sqrt(array.length));
+                int widht = (int) Math.ceil(Math.sqrt(array.length));
                 BufferedImage img = BigBufferedImage.create(height, widht, BigBufferedImage.TYPE_4BYTE_ABGR);
 
                 double percentChange = 1.0 / height / widht;
@@ -49,16 +49,27 @@ public class main {
                 int contador = 0;
                 for (int i = 0; i < height; i++) {
                     for (int j = 0; j < widht; j++) {
+
                         percentage += percentChange;
                         System.out.println((int) (percentage * 100) + " %");
 
                         Color color = genPastelColor();
-                        int bitToInt = array[contador] & 0xff;
+
+                        int bitToInt;
+                        if (contador < array.length) {
+                            bitToInt = array[contador] & 0xff;
+                        } else {
+                            bitToInt = 0;
+                        }
                         System.out.println(bitToInt);
                         img.setRGB(i, j, new Color(color.getRed(), color.getGreen(), color.getBlue(), bitToInt).getRGB());
-
+                        System.out.println(contador + " / " + array.length);
                         contador++;
                     }
+                }
+
+                if (contador < array.length) {
+
                 }
 
                 File outputfile = new File(args[2]);
@@ -83,14 +94,35 @@ public class main {
                         percentage += percentChange;
                         System.out.println((int) (percentage * 100) + " %");
                         Color color = new Color(img.getRGB(i, j), true);
-                        int intToByte = color.getAlpha() & 0xff;
-                        System.out.println(intToByte);
-                        imgBytes[contador] = (byte) intToByte;
-                        contador++;
+
+                        if (color.getAlpha() != 0) {
+                            int intToByte = color.getAlpha() & 0xff;
+                            System.out.println(intToByte);
+                            imgBytes[contador] = (byte) intToByte;
+                            contador++;
+                        }
                     }
                 }
+
+                int validBytesCount = 0;
+                byte[] validBytes;
+                
+                for (int i = 0; i < imgBytes.length; i++) {
+                    if(imgBytes[i] != 0){
+                        validBytesCount++;
+                    }
+                }
+                
+                validBytes = new byte[validBytesCount];
+                
+                for (int i = 0; i < validBytesCount; i++) {
+                    if(imgBytes[i] != 0){
+                        validBytes[i] = imgBytes[i];
+                    }
+                }
+
                 try (FileOutputStream fos = new FileOutputStream(args[2])) {
-                    fos.write(imgBytes);
+                    fos.write(validBytes);
                     //fos.close(); There is no more need for this line since you had created the instance of "fos" inside the try. And this will automatically close the OutputStream
                 }
                 System.out.println("Generated file " + args[2]);
@@ -109,5 +141,12 @@ public class main {
         final float saturation = 0.9f;//1.0 for brilliant, 0.0 for dull
         final float luminance = 1.0f; //1.0 for brighter, 0.0 for black
         return Color.getHSBColor(hue, saturation, luminance);
+    }
+
+    public static Color genNormalColor() {
+        int R = (int) (Math.random() * 256);
+        int G = (int) (Math.random() * 256);
+        int B = (int) (Math.random() * 256);
+        return new Color(R, G, B);
     }
 }
