@@ -18,6 +18,6 @@ Where **inputfile** is the file's path to be converted and **outputfile.png** is
 Converts any converted file to back to the name and extension you give.
 
 ```
--c inputfile.png outputfile
+-rc inputfile.png outputfile
 ```
 Where **inputfile.png** is the file's path that was converted and you want to convert back and **outputfile** is the place where you want the file to be placed.
